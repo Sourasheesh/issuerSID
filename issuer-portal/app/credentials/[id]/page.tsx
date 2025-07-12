@@ -3,13 +3,25 @@ import Credential from "@/models/Credential";
 import Link from "next/link";
 import RevokeButton from "@/components/RevokeButton";
 
-export default async function CredentialDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+type CredentialType = {
+  _id: string;
+  recipientName: string;
+  credentialType: string;
+  description: string;
+  ipfsUrl: string;
+  blockchainHash: string;
+  revoked: boolean;
+};
+
+export default async function CredentialDetailPage({ params }: Props) {
   await connectToDB();
-  const credential = await Credential.findById(params.id).lean();
+  const credential = (await Credential.findById(params.id).lean()) as CredentialType | null;
 
   if (!credential) {
     return (
@@ -28,7 +40,6 @@ export default async function CredentialDetailPage({
             "url('https://e0.pxfuel.com/wallpapers/525/859/desktop-wallpaper-blue-abstract-tech-background-windows-10-blue-dark-blue-abstract-technology.jpg')",
         }}
       >
-        {/* Green gradient overlay */}
         <div className="absolute bg-gradient-to-br from-green-900 via-green-800 to-black opacity-80 inset-0 z-0" />
 
         <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
@@ -64,7 +75,6 @@ export default async function CredentialDetailPage({
                 </a>
               </p>
 
-              {/* Status */}
               <div className="flex items-center gap-4 mt-6">
                 <RevokeButton id={credential._id.toString()} revoked={credential.revoked} />
               </div>
