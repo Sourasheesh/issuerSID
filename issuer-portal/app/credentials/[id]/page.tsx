@@ -22,8 +22,7 @@ export default async function CredentialDetailPage({
 
   const credentialData = await Credential.findById(params.id).lean();
 
-  // Fix type assignment explicitly to avoid type errors
-  const credential = credentialData as unknown as CredentialType | null;
+  const credential = credentialData as CredentialType | null;
 
   if (!credential) {
     return (
