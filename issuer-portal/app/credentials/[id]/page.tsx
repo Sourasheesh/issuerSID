@@ -19,7 +19,11 @@ export default async function CredentialDetailPage({
   params: { id: string };
 }) {
   await connectToDB();
-  const credential = (await Credential.findById(params.id).lean()) as CredentialType | null;
+
+  const credentialData = await Credential.findById(params.id).lean();
+
+  // Fix type assignment explicitly to avoid type errors
+  const credential = credentialData as unknown as CredentialType | null;
 
   if (!credential) {
     return (
