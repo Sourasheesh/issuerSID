@@ -3,7 +3,11 @@ import Credential from "@/models/Credential";
 import Link from "next/link";
 import RevokeButton from "@/components/RevokeButton";
 
-export default async function CredentialDetailPage({ params }: { params: { id: string } }) {
+export default async function CredentialDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   await connectToDB();
   const credential = await Credential.findById(params.id).lean();
 
