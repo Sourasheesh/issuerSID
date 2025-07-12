@@ -3,12 +3,6 @@ import Credential from "@/models/Credential";
 import Link from "next/link";
 import RevokeButton from "@/components/RevokeButton";
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
 type CredentialType = {
   _id: string;
   recipientName: string;
@@ -19,7 +13,11 @@ type CredentialType = {
   revoked: boolean;
 };
 
-export default async function CredentialDetailPage({ params }: Props) {
+export default async function CredentialDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   await connectToDB();
   const credential = (await Credential.findById(params.id).lean()) as CredentialType | null;
 
