@@ -17,7 +17,8 @@ export default function IssuePage() {
   }, [router]);
 
   const handleIssued = (credential: any) => {
-    const walletBaseUrl = "https://your-wallet-app.com/claim";
+    // Change this to your local wallet URL
+    const walletBaseUrl = "http://localhost:3000/claim";
 
     const credentialData = {
       recipientName: credential.recipientName,
@@ -27,7 +28,8 @@ export default function IssuePage() {
       blockchainHash: credential.blockchainHash,
     };
 
-    const encoded = Buffer.from(JSON.stringify(credentialData)).toString("base64");
+    // Use btoa for browser-safe base64
+    const encoded = btoa(JSON.stringify(credentialData));
     const link = `${walletBaseUrl}?data=${encoded}`;
 
     setClaimLink(link);
@@ -56,7 +58,7 @@ export default function IssuePage() {
             <h1 className="mb-6 text-center text-3xl font-bold text-lime-400">
               Issue Credential
             </h1>
-            {/* The CredentialForm component should use these improved input styles: */}
+
             <CredentialForm onIssued={handleIssued} />
 
             {claimLink && (
